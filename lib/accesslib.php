@@ -805,7 +805,7 @@ function require_capability($capability, context $context, $userid = null, $doan
  * @return array access info array
  */
 function get_user_access_sitewide($userid) {
-    global $CFG, $DB, $ACCESSLIB_PRIVATE;
+    global $CFG, $DB, $ACCESSLIB_PRIVATE, $PAGE;
 
     /* Get in a few cheap DB queries...
      * - role assignments
@@ -834,6 +834,8 @@ function get_user_access_sitewide($userid) {
         }
     }
 
+    $currentcontextid = $PAGE->context->id;
+
     // preload every assigned role at and above course context
     $sql = "SELECT ctx.path, ra.roleid, ra.contextid
               FROM {role_assignments} ra
@@ -844,8 +846,9 @@ function get_user_access_sitewide($userid) {
          LEFT JOIN {context} bpctx
                    ON (bpctx.id = bi.parentcontextid)
              WHERE ra.userid = :userid
-                   AND (ctx.contextlevel <= ".CONTEXT_COURSE." OR bpctx.contextlevel < ".CONTEXT_COURSE.")";
-    $params = array('userid'=>$userid);
+                   AND (ctx.contextlevel <= ".CONTEXT_COURSE." OR bpctx.contextlevel < ".CONTEXT_COURSE.")
+                   AND ctx.id = :currentcontextid";
+    $params = array('userid'=>$userid, 'currentcontextid' => $currentcontextid);
     $rs = $DB->get_recordset_sql($sql, $params);
     foreach ($rs as $ra) {
         // RAs leafs are arrays to support multi-role assignments...
