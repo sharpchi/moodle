@@ -1183,6 +1183,11 @@ class core_renderer extends renderer_base {
         // Give themes a chance to init/alter the page object.
         $this->page->theme->init_page($this->page);
 
+        // Give local plugins opportunity to alter the page object.
+        foreach (get_plugin_list_with_function('local', 'page_init') as $function) {
+            $function($this->page);
+        }
+
         $this->page->set_state(moodle_page::STATE_PRINTING_HEADER);
 
         // Find the appropriate page layout file, based on $this->page->pagelayout.
