@@ -814,16 +814,18 @@ class theme_config {
     }
 
     /**
-     * Let the theme initialise the page object (usually $PAGE).
+     * Let plugins initialise the page object (usually $PAGE).
      *
      * This may be used for example to request jQuery in add-ons.
      *
      * @param moodle_page $page
      */
     public function init_page(moodle_page $page) {
-        $themeinitfunction = 'theme_'.$this->name.'_page_init';
-        if (function_exists($themeinitfunction)) {
-            $themeinitfunction($page);
+        $pluginsfunction = get_plugins_with_function('page_init', 'lib.php');
+        foreach ($pluginsfunction as $plugintype => $plugins) {
+            foreach ($plugins as $pluginfunction) {
+                $pluginfunction($page);
+            }
         }
     }
 
