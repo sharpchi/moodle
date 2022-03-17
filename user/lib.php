@@ -886,6 +886,14 @@ function user_get_user_navigation_info($user, $page, $options = array()) {
         }
     }
 
+    // Let plugins hook into main user navigation.
+    $pluginsfunction = get_plugins_with_function('extend_navigation_menuuser', 'lib.php');
+    foreach ($pluginsfunction as $plugintype => $plugins) {
+        foreach ($plugins as $pluginname => $pluginfunction) {
+            $returnobject->navitems = $pluginfunction($returnobject->navitems, $user, $context, $course);
+        }
+    }
+
     if ($custommenucount > 0) {
         // Only add a divider if we have customusermenuitems.
         $divider = new stdClass();
