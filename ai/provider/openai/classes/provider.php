@@ -102,12 +102,7 @@ class provider extends \core_ai\provider {
             ->withAddedHeader('OpenAI-Organization', $this->orgid);
     }
 
-    /**
-     * Check if the request is allowed by the rate limiter.
-     *
-     * @param aiactions\base $action The action to check.
-     * @return array|bool True on success, array of error details on failure.
-     */
+    #[\Override]
     public function is_request_allowed(aiactions\base $action): array|bool {
         $ratelimiter = \core\di::get(rate_limiter::class);
         $component = \core\component::get_component_from_classname(get_class($this));
@@ -214,6 +209,6 @@ class provider extends \core_ai\provider {
      * @return bool Return true if configured.
      */
     public function is_provider_configured(): bool {
-        return !empty($this->apikey) && !empty($this->orgid);
+        return !empty($this->apikey);
     }
 }

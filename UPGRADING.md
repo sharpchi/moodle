@@ -6,6 +6,106 @@ More detailed information on key changes can be found in the [Developer update n
 
 The format of this change log follows the advice given at [Keep a CHANGELOG](https://keepachangelog.com).
 
+## 5.0dev
+
+### core
+
+#### Added
+
+- The `core/sortable_list` Javascript module now emits native events, removing the jQuery dependency from calling code that wants to listen for the events. Backwards compatibility with existing code using jQuery is preserved
+
+  For more information see [MDL-72293](https://tracker.moodle.org/browse/MDL-72293)
+
+#### Changed
+
+- All uses of the following PHPUnit methods have been removed as these methods are
+  deprecated upstream without direct replacement:
+
+  - `withConsecutive`
+  - `willReturnConsecutive`
+  - `onConsecutive`
+
+  Any plugin using these methods must update their uses.
+
+  For more information see [MDL-81308](https://tracker.moodle.org/browse/MDL-81308)
+
+#### Removed
+
+- moodle_process_email() has been deprecated with the removal of the unused and non-functioning admin/process_email.php.
+
+  For more information see [MDL-61232](https://tracker.moodle.org/browse/MDL-61232)
+
+### core_backup
+
+#### Removed
+
+- Remove all MODE_HUB related code.
+
+  For more information see [MDL-66873](https://tracker.moodle.org/browse/MDL-66873)
+
+### core_enrol
+
+#### Changed
+
+- The `after_user_enrolled` hook now contains a `roleid` property to allow for listeners to determine which role was assigned during user enrolment (if any)
+
+  The base enrolment `enrol_plugin::send_course_welcome_message_to_user` method also now accepts a `$roleid` parameter in order to correctly populate the `courserole` placeholder
+
+  For more information see [MDL-83432](https://tracker.moodle.org/browse/MDL-83432)
+
+### core_reportbuilder
+
+#### Added
+
+- New `get_deprecated_tables` method in base entity, to be overridden when an entity no longer uses a table (due to column/filter re-factoring, etc) in order to avoid breaking third-party reports
+
+  For more information see [MDL-78118](https://tracker.moodle.org/browse/MDL-78118)
+
+#### Changed
+
+- The `get_active_conditions` method of the base report class has a new `$checkavailable` parameter to determine whether to check the returned conditions availability
+
+  For more information see [MDL-82809](https://tracker.moodle.org/browse/MDL-82809)
+
+#### Removed
+
+- The following deprecated report entity elements have been removed:
+
+  - `comment:context`
+  - `comment:contexturl`
+  - `enrolment:method` (plus enrolment formatter `enrolment_name` method)
+  - 'enrolment:role`
+  - `file:context`
+  - `file:contexturl`
+  - `instance:context` (tag)
+  - `instance:contexturl` (tag)
+
+  Use of the `context` table is also deprecated in the `file` and `instance` (tag) entities
+
+  For more information see [MDL-78118](https://tracker.moodle.org/browse/MDL-78118)
+
+### mod_feedback
+
+#### Deprecated
+
+- The 'mode' parameter has been deprecated from 'edit_template_action_bar' and 'templates_table' contructors.
+
+  For more information see [MDL-81744](https://tracker.moodle.org/browse/MDL-81744)
+
+#### Removed
+
+- The 'use_template' template has been removed as it is not needed anymore.
+
+  For more information see [MDL-81744](https://tracker.moodle.org/browse/MDL-81744)
+
+### mod_h5pactivity
+
+#### Changed
+
+- The external function get_user_attempts now returns the total number of attempts.
+
+  For more information see [MDL-82775](https://tracker.moodle.org/browse/MDL-82775)
+
 ## 4.5
 
 ### core

@@ -1,5 +1,32 @@
 # core (subsystem) Upgrade notes
 
+## 5.0dev
+
+### Added
+
+- The `core/sortable_list` Javascript module now emits native events, removing the jQuery dependency from calling code that wants to listen for the events. Backwards compatibility with existing code using jQuery is preserved
+
+  For more information see [MDL-72293](https://tracker.moodle.org/browse/MDL-72293)
+
+### Changed
+
+- All uses of the following PHPUnit methods have been removed as these methods are
+  deprecated upstream without direct replacement:
+
+  - `withConsecutive`
+  - `willReturnConsecutive`
+  - `onConsecutive`
+
+  Any plugin using these methods must update their uses.
+
+  For more information see [MDL-81308](https://tracker.moodle.org/browse/MDL-81308)
+
+### Removed
+
+- moodle_process_email() has been deprecated with the removal of the unused and non-functioning admin/process_email.php.
+
+  For more information see [MDL-61232](https://tracker.moodle.org/browse/MDL-61232)
+
 ## 4.5
 
 ### Added
