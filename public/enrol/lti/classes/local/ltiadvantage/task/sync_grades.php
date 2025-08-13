@@ -34,7 +34,7 @@ class sync_grades extends scheduled_task {
      * @return string
      */
     public function get_name() {
-        return get_string('tasksyncgrades', 'enrol_lti');
+        return get_string('tasksyncgradesadvantage', 'enrol_lti');
     }
 
     /**

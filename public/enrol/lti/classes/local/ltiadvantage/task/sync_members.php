@@ -72,7 +72,7 @@ class sync_members extends scheduled_task {
      * @return string the name of the task.
      */
     public function get_name(): string {
-        return get_string('tasksyncmembers', 'enrol_lti');
+        return get_string('tasksyncmembersadvantage', 'enrol_lti');
     }
 
     /**

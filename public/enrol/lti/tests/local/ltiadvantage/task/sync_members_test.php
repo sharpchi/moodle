@@ -223,7 +223,7 @@ final class sync_members_test extends \lti_advantage_testcase {
      * @covers ::get_name
      */
     public function test_get_name(): void {
-        $this->assertEquals(get_string('tasksyncmembers', 'enrol_lti'), (new sync_members())->get_name());
+        $this->assertEquals(get_string('tasksyncmembersadvantage', 'enrol_lti'), (new sync_members())->get_name());
     }
 
     /**

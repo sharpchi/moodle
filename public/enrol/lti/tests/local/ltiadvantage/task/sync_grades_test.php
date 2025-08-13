@@ -41,7 +41,7 @@ final class sync_grades_test extends \lti_advantage_testcase {
      * @covers ::get_name
      */
     public function test_get_name(): void {
-        $this->assertEquals(get_string('tasksyncgrades', 'enrol_lti'), (new sync_grades())->get_name());
+        $this->assertEquals(get_string('tasksyncgradesadvantage', 'enrol_lti'), (new sync_grades())->get_name());
     }
 
     /**
