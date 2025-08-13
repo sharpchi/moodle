@@ -59,8 +59,11 @@ abstract class adhoc_task extends task_base {
         $classparts = explode('\\', get_called_class());
         $classname = end($classparts);
 
+        $component = $classparts[0];
+        $manager = get_string_manager();
+        $pluginname = ($manager->string_exists('pluginname', $component)) ? ' (' . get_string('pluginname', $component) . ')' : '';
         // Try to make human readable, capitalized and with spaces.
-        return ucfirst(str_replace('_', ' ', $classname));
+        return ucfirst(str_replace('_', ' ', $classname . $pluginname));
     }
 
     /**
