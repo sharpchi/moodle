@@ -290,7 +290,7 @@ class task_log extends base {
                 foreach ($classnames as $classname) {
                     if (class_exists($classname)) {
                         $task = new $classname;
-                        $options[$classname] = $task->get_name();
+                        $options[$classname] = $task->get_name_with_component();
                     }
                 }
 

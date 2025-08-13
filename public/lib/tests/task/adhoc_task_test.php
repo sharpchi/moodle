@@ -16,6 +16,7 @@
 
 namespace core\task;
 
+use core\tests\fake_plugins_test_trait;
 use core\url;
 
 /**
@@ -28,6 +29,8 @@ use core\url;
  * @covers \core\task\manager
  */
 final class adhoc_task_test extends \advanced_testcase {
+    use fake_plugins_test_trait;
+
     public static function setUpBeforeClass(): void {
         parent::setUpBeforeClass();
 
@@ -52,6 +55,24 @@ final class adhoc_task_test extends \advanced_testcase {
     public function test_get_name_default(): void {
         $task = new \mod_fake\task\adhoc_component_task();
         $this->assertEquals('Adhoc component task', $task->get_name());
+    }
+
+    /**
+     * Test getting name of task with component
+     *
+     * @runInSeparateProcess
+     * @covers \core\task\adhoc_task
+     * @return void
+     */
+    public function test_get_name_component(): void {
+        $this->resetAfterTest();
+        $this->add_full_mocked_plugintype(
+            plugintype: 'fake',
+            path: 'public/lib/tests/fixtures/fakeplugins/fake',
+        );
+        $this->deprecate_full_mocked_plugintype('fake');
+        $task = new \fake_fullfeatured\task\adhoc_fake_task();
+        $this->assertEquals('Adhoc fake task (Fake full featured plugin)', $task->get_name_with_component());
     }
 
     /**

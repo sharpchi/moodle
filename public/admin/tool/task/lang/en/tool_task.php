@@ -105,6 +105,7 @@ $string['taskdisabled'] = 'Task disabled';
 $string['taskfailures'] = '{$a} task(s) failing';
 $string['taskid'] = 'Task ID';
 $string['tasklogs'] = 'Task logs';
+$string['tasknamewithcomponent'] = '{$a->task} ({$a->component})';
 $string['tasknofailures'] = 'There are no tasks failing';
 $string['taskrunningtime'] = 'Task has run for {$a}';
 $string['taskscheduleday'] = 'Day';

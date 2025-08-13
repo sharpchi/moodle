@@ -68,6 +68,21 @@ abstract class task_base {
     abstract public function get_name();
 
     /**
+     * Get a description name for the task with component
+     *
+     * @return string
+     */
+    final public function get_name_with_component(): string {
+        $pluginman = \core\plugin_manager::instance();
+        $plugininfo = $pluginman->get_plugin_info($this->get_component());
+        $displayname = $plugininfo->displayname ?? get_string('corecomponent', 'tool_task');
+        return get_string('tasknamewithcomponent', 'tool_task', [
+            'task' => $this->get_name(),
+            'component' => $displayname,
+        ]);
+    }
+
+    /**
      * Set the current lock for this task.
      * @param \core\lock\lock $lock
      */
