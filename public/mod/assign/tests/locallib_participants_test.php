@@ -17,12 +17,14 @@
 namespace mod_assign;
 
 use mod_assign_test_generator;
+use mod_assign\testable_assign_with_includesuspended;
 
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once(__DIR__ . '/../locallib.php');
 require_once($CFG->dirroot . '/mod/assign/tests/generator.php');
+require_once($CFG->dirroot . '/mod/assign/tests/fixtures/testable_assign_with_includesuspended.php');
 
 /**
  * Unit tests for (some of) mod/assign/locallib.php.
@@ -174,5 +176,53 @@ final class locallib_participants_test extends \advanced_testcase {
         $plugin->save($submission, $data);
 
         $this->setUser($previoususer);
+    }
+
+    /**
+     * Ensure site-suspended users with submissions are listed when "include suspended" is enabled.
+     * @covers \assign::list_participants
+     */
+    public function test_list_participants_includes_site_suspended_users_with_submissions(): void {
+        global $DB;
+
+        $this->resetAfterTest(true);
+
+        // Create course, student, and assignment.
+        $course = self::getDataGenerator()->create_course();
+        $student = self::getDataGenerator()->create_and_enrol($course, 'student');
+        $assign = $this->create_instance($course);
+
+        // Add a submission and submit for grading.
+        $this->add_submission($student, $assign);
+        $this->submit_for_grading($student, $assign);
+
+        // Confirm the submission exists.
+        $submission = $DB->get_record('assign_submission', [
+            'assignment' => $assign->get_instance()->id,
+            'userid' => $student->id,
+        ]);
+        $this->assertNotEmpty($submission, 'Submission should exist before suspension');
+
+        // Suspend the user site-wide.
+        $DB->set_field('user', 'suspended', 1, ['id' => $student->id]);
+
+        // Check suspended users are not displayed if only showing active users.
+        $participants = $assign->list_participants(0, false);
+        $this->assertArrayNotHasKey(
+            $student->id,
+            $participants,
+            'Check suspended users are not displayed if only showing active users.'
+        );
+
+        // Re-instantiate assign class, but force "include suspended" to true.
+        $assign = new testable_assign_with_includesuspended(
+            $assign->get_context(),
+            $assign->get_course_module(),
+            $assign->get_course()
+        );
+
+        // Check suspended users are included when "include suspended" users.
+        $participants = $assign->list_participants(0, false);
+        $this->assertArrayHasKey($student->id, $participants, 'Suspended user with submission should be listed');
     }
 }
