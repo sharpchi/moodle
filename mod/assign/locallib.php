@@ -2394,8 +2394,10 @@ class assign {
                 }
             }
 
-            // Exclude suspended users from the list of participants.
-            $additionalfilters .= " AND u.suspended = 0 AND u.auth <> 'nologin'";
+            // Exclude suspended users from the list of participants if only showing active users.
+            if ($this->show_only_active_users()) {
+                $additionalfilters .= " AND u.suspended = 0 AND u.auth <> 'nologin'";
+            }
 
             $sql = "SELECT $fields
                       FROM {user} u
