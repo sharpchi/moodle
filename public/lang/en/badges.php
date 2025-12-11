@@ -27,6 +27,7 @@
 $string['actions'] = 'Actions';
 $string['activate'] = 'Enable access';
 $string['activatesuccess'] = 'Access to badge \'{$a}\' enabled.';
+$string['activatetitle'] = 'Enable {$a} badges';
 $string['addalignment'] = 'Add external skill or standard';
 $string['addbadge'] = 'Add badges';
 $string['addbadge_help'] = 'Select all badges that should be added to this badge requirement. Hold CTRL key to select multiple items.';
@@ -70,10 +71,12 @@ $string['anymethodcourseset'] = 'Any of the selected courses is complete';
 $string['anymethodmanual'] = 'Any of the selected roles awards the badge';
 $string['anymethodprofile'] = 'Any of the selected profile fields has been completed';
 $string['apiversion'] = 'API version supported';
+$string['archive'] = 'Archive';
 $string['archivebadge'] = 'Would you like to delete badge \'{$a}\', but keep existing issued badges?';
 $string['archiveconfirm'] = 'Delete and keep existing issued badges';
 $string['archivehelp'] = '<p>This option means that the badge will be marked as "retired" and will no longer appear in the list of badges. Users will no longer be able to earn this badge, however existing badge recipients will still be able to display this badge on their profile page and push it to their external backpacks.</p>
 <p>If you would like your users to retain access to the earned badges it is important to select this option instead of fully deleting badges.</p>';
+$string['archivetitle'] = 'Archive {$a} badges';
 $string['attachment'] = 'Attach badge to message';
 $string['attachment_help'] = 'If enabled, an issued badge will be attached to the recipient\'s email for download. (Attachments must be enabled in Site administration / Server / Email / Outgoing mail configuration to use this option.)';
 $string['award'] = 'Award badge';
@@ -179,6 +182,19 @@ $string['bendorsement'] = 'Endorsement';
 $string['bmessage'] = 'Message';
 $string['boverview'] = 'Overview';
 $string['brelated'] = 'Related badges ({$a})';
+$string['bulkdisableconfirm'] = '<p>This will make your badges unavailable to users and prevent them from earning these badges.</p>
+
+<p>It is possible that some users have already earned these badges. Once a badge has been issued it will be <strong>locked</strong> - certain settings including the criteria and expiry settings can no longer be changed.</p>
+
+<p>Are you sure you want to disable access to these badges?</p>';
+$string['bulkenableconfirm'] = '<p>This will make your badges visible to users and allow them to start earning them.</p>
+
+<p>It is possible that some users already meet these badges\' criteria and will be issued these badges immediately after you enable them.</p>
+
+<p>Once a badge has been issued it will be <strong>locked</strong> - certain settings including the criteria and expiry settings can no longer be changed.</p>
+
+<p>Are you sure you want to enable access to the badges?</p>';
+$string['bulksuccess'] = '{$a} badge(s) successfully updated.';
 $string['bydate'] = ' complete by';
 $string['canvascredentialsprovider'] = 'Canvas Credentials';
 $string['canvasregions'] = 'Canvas Credentials regions';
@@ -275,12 +291,14 @@ $string['dateearned'] = 'Date: {$a}';
 $string['day'] = 'Day(s)';
 $string['deactivate'] = 'Disable access';
 $string['deactivatesuccess'] = 'Access to badge \'{$a}\' disabled.';
+$string['deactivatetitle'] = 'Disable {$a} badges';
 $string['defaultissuercontact'] = 'Badge issuer email address';
 $string['defaultissuercontact_desc'] = 'An email address associated with the badge issuer. For an Open Badges v2.0 backpack, this is used for authentication when publishing badges to a backpack.';
 $string['defaultissuerpassword'] = 'Badge issuer password';
 $string['defaultissuername'] = 'Badge issuer name';
 $string['defaultissuername_desc'] = 'Name of the issuing agent or authority.';
 $string['delbadge'] = 'Would you like to delete badge \'{$a}\' and remove all existing issued badges?';
+$string['deletetitle'] = 'Delete {$a} badges';
 $string['delexternalbackpack'] = 'Delete site backpack';
 $string['delexternalbackpackconfirm'] = 'Delete site backpack \'{$a}\'?';
 $string['delconfirm'] = 'Delete and remove existing issued badges';
@@ -534,6 +552,7 @@ $string['reviewconfirm'] = '<p>This will make your badge visible to users and al
 $string['save'] = 'Save';
 $string['searchname'] = 'Search by name';
 $string['selectaward'] = 'Please select the role you would like to use to award this badge: ';
+$string['selectbadge'] = 'Select badge {$a}';
 $string['selectgroup_end'] = 'Only public collections are shown. <a href="{$a}">Visit your backpack</a> to create more public collections.';
 $string['selectgroup_start'] = 'Select collections from your backpack to display on this site:';
 $string['selecting'] = 'With selected badges...';
@@ -596,6 +615,7 @@ $string['viewbadge'] = 'View issued badge';
 $string['visible'] = 'Visible';
 $string['version'] = 'Version';
 $string['warnexpired'] = ' (This badge has expired!)';
+$string['withselectedbadges'] = 'With selected badges...';
 $string['wrongrole'] = 'The role you want to use is not assigned to you.';
 $string['year'] = 'Year(s)';
 

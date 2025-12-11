@@ -157,12 +157,19 @@ if ($course && $course->startdate > time()) {
 }
 
 if ($msg !== '') {
-    echo $OUTPUT->notification(get_string($msg, 'badges'), 'notifysuccess');
+    if ($msg === 'bulksuccess') {
+        $num = optional_param('num', 0, PARAM_INT);
+        $msg = get_string($msg, 'badges', $num);
+    } else {
+        $msg = get_string($msg, 'badges');
+    }
+    echo $OUTPUT->notification($msg, 'notifysuccess');
 }
-
+/** @var \core_badges\reportbuilder\local\badges $report */
 $report = system_report_factory::create(badges::class, $PAGE->context);
 
 echo $report->output();
+echo $report->bulk_actions();
 $PAGE->requires->js_call_amd('core_badges/actions', 'init');
 
 // Trigger event, badge listing viewed.

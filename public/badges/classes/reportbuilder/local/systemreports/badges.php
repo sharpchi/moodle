@@ -76,7 +76,8 @@ class badges extends system_report {
         }
 
         // Any columns required by actions should be defined here to ensure they're always available.
-        $this->add_base_fields("{$entityalias}.id, {$entityalias}.type, {$entityalias}.courseid, {$entityalias}.status");
+        $this->add_base_fields("{$entityalias}.id, {$entityalias}.name, {$entityalias}.type, {$entityalias}.courseid,
+            {$entityalias}.status");
 
         $badgeissuedentity = new badge_issued();
         $badgeissuedalias = $badgeissuedentity->get_table_alias('badge_issued');
@@ -92,6 +93,10 @@ class badges extends system_report {
             ->add_join("LEFT JOIN {badge_issued} {$badgeissuedselfalias}
                                ON {$entityalias}.id = {$badgeissuedselfalias}.badgeid
                               AND {$badgeissuedselfalias}.userid = {$USER->id}"));
+
+        $this->set_checkbox_toggleall(static function (stdClass $badge): array {
+            return [$badge->id, get_string('selectbadge', 'core_badges', $badge->name)];
+        });
 
         // Now we can call our helper methods to add the content we want to include in the report.
         $this->add_columns();
@@ -364,5 +369,60 @@ class badges extends system_report {
      */
     public function get_row_class(stdClass $row): string {
         return ($row->status == BADGE_STATUS_INACTIVE_LOCKED || $row->status == BADGE_STATUS_INACTIVE) ? 'text-muted' : '';
+    }
+
+    /**
+     * Render bulk actions HTML
+     *
+     * @return string
+     */
+    public function bulk_actions(): string {
+        global $OUTPUT;
+        $data = new stdClass();
+        $data->showbulkactions = has_any_capability([
+            'moodle/badges:deletebadge',
+            'moodle/badges:configurecriteria',
+        ], $this->get_context());
+        if ($data->showbulkactions === false) {
+            return '';
+        }
+        $data->id = 'badges-bulk-actions';
+        $data->actions = [
+            [
+                'name' => get_string('activate', 'core_badges'),
+                'value' => 'activate',
+            ],
+            [
+                'name' => get_string('deactivate', 'core_badges'),
+                'value' => 'deactivate',
+            ],
+            [
+                'name' => get_string('archive', 'core_badges'),
+                'value' => 'archive',
+            ],
+            [
+                'name' => get_string('delete', 'core'),
+                'value' => 'delete',
+            ],
+        ];
+        $data->attributes = [
+            [
+                'name' => 'data-action',
+                'value' => 'toggle',
+            ],
+            [
+                'name' => 'data-togglegroup',
+                'value' => 'report-select-all',
+            ],
+            [
+                'name' => 'data-toggle',
+                'value' => 'action',
+            ],
+            [
+                'name' => 'disabled',
+                'value' => true,
+            ],
+        ];
+        return $OUTPUT->render_from_template('core_badges/bulk_actions', $data);
     }
 }

@@ -38,6 +38,7 @@ export default {
         deletebackpack: getDataSelector('action', 'deletebackpack'),
         enablebadge: getDataSelector('action', 'enablebadge'),
         disablebadge: getDataSelector('action', 'disablebadge'),
+        bulkactions: '#badges-bulk-actions',
     },
     elements: {
         clearsearch: '.input-group .clear-icon',

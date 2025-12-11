@@ -42,6 +42,16 @@ export const init = () => {
         'deactivatesuccess',
         'awardoncron',
         'numawardstat',
+        'archiveconfirm',
+        'archivehelp',
+        'deletehelp',
+        'delconfirm',
+        'archivetitle',
+        'deletetitle',
+        'activatetitle',
+        'deactivatetitle',
+        'bulkenableconfirm',
+        'bulkdisableconfirm',
     ]);
     prefetchStrings('core', [
         'confirm',
@@ -87,6 +97,21 @@ const registerEventListeners = () => {
             const reportElement = event.target.closest(reportSelectors.regions.report);
             disableBadge(badgeId, badgeName, reportElement);
         }
+    });
+
+    document.querySelector(selectors.actions.bulkactions)?.addEventListener('change', event => {
+        const action = event.target;
+        event.preventDefault();
+        if (action.value === '') {
+            return;
+        }
+        const reportElement = event.target.closest(reportSelectors.regions.report);
+        const checkedBadges = getCheckedBadges(reportElement);
+        if (!checkedBadges.length) {
+            return;
+        }
+        const badgeIds = [...checkedBadges].map(check => check.value);
+        handleBulkActionChange(action.value, badgeIds);
     });
 };
 
@@ -192,3 +217,98 @@ function showDisableResultToast(badgeName, result) {
         );
     }
 }
+
+/**
+ * Handle bulk actions for badges.
+ *
+ * @param {String} action The bulk action
+ * @param {Array} badgeIds List of all badgeids
+ * @returns
+ */
+const handleBulkActionChange = async(action, badgeIds) => {
+    let data = {};
+    let modal = null;
+    switch (action) {
+        case 'archive':
+            data = {
+                method: 'core_badges_archive_badges',
+                title: await getString('archivetitle', 'core_badges', badgeIds.length),
+                body: await getString('archivehelp', 'core_badges'),
+                button: await getString('archiveconfirm', 'core_badges'),
+            };
+            modal = Notification.deleteCancelPromise(
+                data.title,
+                data.body,
+                data.button
+            );
+            break;
+        case 'delete':
+            data = {
+                method: 'core_badges_delete_badges',
+                title: await getString('deletetitle', 'core_badges', badgeIds.length),
+                body: await getString('deletehelp', 'core_badges'),
+                button: await getString('delconfirm', 'core_badges'),
+            };
+            modal = Notification.deleteCancelPromise(
+                data.title,
+                data.body,
+                data.button
+            );
+            break;
+        case 'activate':
+            data = {
+                method: 'core_badges_enable_badges',
+                title: await getString('activatetitle', 'core_badges', badgeIds.length),
+                body: await getString('bulkenableconfirm', 'core_badges', badgeIds.length),
+                button: await getString('confirm', 'core'),
+            };
+            modal = Notification.saveCancelPromise(
+                data.title,
+                data.body,
+                data.button
+            );
+            break;
+        case 'deactivate':
+            data = {
+                method: 'core_badges_disable_badges',
+                title: await getString('deactivatetitle', 'core_badges', badgeIds.length),
+                body: await getString('bulkdisableconfirm', 'core_badges'),
+                button: await getString('confirm', 'core'),
+            };
+            modal = Notification.saveCancelPromise(
+                data.title,
+                data.body,
+                data.button
+            );
+            break;
+        default:
+            return;
+    }
+
+    const request = {
+        methodname: data.method,
+        args: {
+            badgeids: badgeIds,
+        }
+    };
+
+    await modal.then(() => {
+        return Ajax.call([request])[0].done(function(data) {
+            if (data.result) {
+                const params = new URLSearchParams(document.location.search);
+                document.location = document.location.pathname +
+                    `?type=${params.get('type')}&id=${params.get('id')}&msg=bulksuccess&num=${badgeIds.length}`;
+            } else if (data.warnings.length > 0) {
+                addToast(data.warnings[0].message, {type: 'danger'});
+            }
+        }).fail(Notification.exception);
+    }).catch(() => {
+        return;
+    });
+};
+
+/**
+ * Get all checkbox elements for bulk select badges
+ * @returns {NodeList} List of checked badge checkboxes
+ */
+const getCheckedBadges = () => document.querySelectorAll('[data-togglegroup="report-select-all"][data-toggle="target"]:checked');
