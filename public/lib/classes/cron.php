@@ -127,7 +127,7 @@ class cron {
             // Run adhoc tasks.
             self::run_adhoc_tasks(time(), 0, true, $timenow);
 
-            mtrace("Cron run completed correctly");
+            $message = PHP_EOL . "Cron run completed correctly" . PHP_EOL;
 
             gc_collect_cycles();
 
@@ -135,7 +135,7 @@ class cron {
             $difftime = microtime_diff($startruntime, microtime());
             $memoryused = display_size(memory_get_usage());
 
-            $message = "Cron completed at {$completiontime} in {$difftime} seconds. Memory used: {$memoryused}.";
+            $message .= "Cron completed at {$completiontime} in {$difftime} seconds. Memory used: {$memoryused}.";
 
             // Check if we should continue to run.
             // Only continue to run if:
@@ -148,8 +148,7 @@ class cron {
             $runagain = $runagain && !\core\task\manager::static_caches_cleared_since($timenow);
 
             if ($runagain) {
-                $message .= " Continuing to check for tasks for {$remaining} more seconds.";
-                mtrace($message);
+                mtrace('.', '');
                 sleep(1);
 
                 // Re-check the graceful exit and cache clear flags after sleeping as these may have changed.
@@ -326,7 +325,9 @@ class cron {
             mtrace('');
         }
 
-        mtrace("Ran {$taskcount} adhoc tasks found at {$humantimenow}");
+        if ($taskcount > 0) {
+            mtrace("Ran {$taskcount} adhoc tasks found at {$humantimenow}");
+        }
 
         if ($adhoclock) {
             // Release the adhoc task runner lock.
