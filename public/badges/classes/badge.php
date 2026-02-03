@@ -78,6 +78,15 @@ class badge {
     /** @var integer Duration this badge is valid for */
     public $expireperiod;
 
+    /** @var bool Notify participant when badge expires */
+    public $notifywhenexpires;
+
+    /** @var string The expiry message this badge includes. */
+    public $expirymessage;
+
+    /** @var string The subject of the expiry message for this badge */
+    public $expirysubject;
+
     /** @var integer Site or course badge */
     public $type;
 
@@ -131,6 +140,12 @@ class badge {
 
     /** @var array Message editor. Called from file_prepare_standard_editor() */
     public $message_editor = [];
+
+    /** @var array Expiry Message editor. Called from file_prepare_standard_editor() */
+    public $expirymessage_editor = [];
+
+    /** @var string|null Expiry Message format. Called from file_preapre_standard_editor() */
+    public $expirymessageformat;
 
     /**
      * Constructs with badge details.
@@ -244,7 +259,9 @@ class badge {
         unset($fordb->dateissued);
         unset($fordb->uniquehash);
         unset($fordb->messageformat);
+        unset($fordb->expirymessageformat);
         unset($fordb->message_editor);
+        unset($fordb->expirymessage_editor);
 
         $fordb->timemodified = time();
         if ($DB->update_record_raw('badge', $fordb)) {
@@ -989,6 +1006,9 @@ class badge {
         }
         $fordb->expiredate = ($data->expiry == 1) ? $data->expiredate : null;
         $fordb->expireperiod = ($data->expiry == 2) ? $data->expireperiod : null;
+        $fordb->notifywhenexpires = ($data->expiry != 0) ? $data->notifywhenexpires : 0;
+        $fordb->expirysubject = get_string('expirysubject', 'badges');
+        $fordb->expirymessage = get_string('expirymessage', 'badges');
         $fordb->messagesubject = get_string('messagesubject', 'badges');
         $fordb->message = get_string('messagebody', 'badges',
                 html_writer::link($CFG->wwwroot . '/badges/mybadges.php', get_string('managebadges', 'badges')));
@@ -1041,10 +1061,13 @@ class badge {
         $this->issuercontact = $data->issuercontact;
         $this->expiredate = ($data->expiry == 1) ? $data->expiredate : null;
         $this->expireperiod = ($data->expiry == 2) ? $data->expireperiod : null;
+        $this->notifywhenexpires = ($data->expiry != 0) ? $data->notifywhenexpires : 0;
 
         // Need to unset message_editor options to avoid errors on form edit.
         unset($this->messageformat);
         unset($this->message_editor);
+        unset($this->expirymessage_editor);
+        unset($this->expirymessageformat);
 
         if (!$this->save()) {
             return false;
@@ -1078,6 +1101,11 @@ class badge {
 
         unset($this->messageformat);
         unset($this->message_editor);
+
+        $this->expirymessage = clean_text($data->expirymessage_editor['text'], FORMAT_HTML);
+        $this->expirysubject = $data->expirysubject;
+        unset($this->expirymessageformat);
+        unset($this->expirymessage_editor);
         return $this->save();
     }
 }

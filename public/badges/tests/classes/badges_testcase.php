@@ -73,6 +73,9 @@ abstract class badges_testcase extends \advanced_testcase {
         $fordb->issuercontact = "issuer@example.com";
         $fordb->expiredate = null;
         $fordb->expireperiod = null;
+        $fordb->notifywhenexpires = 0;
+        $fordb->expirysubject = 'Test expiry subject';
+        $fordb->expirymessage = 'Test expiry message';
         $fordb->type = BADGE_TYPE_SITE;
         $fordb->version = 1;
         $fordb->language = 'en';

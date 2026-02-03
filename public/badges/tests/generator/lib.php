@@ -60,6 +60,9 @@ class core_badges_generator extends component_generator_base {
             'issuercontact' => 'issuer@example.com',
             'expiredate' => null,
             'expireperiod' => null,
+            'notifywhenexpires' => 0,
+            'expirysubject' => 'Test expiry subject',
+            'expirymessage' => 'Test expiry body',
             'type' => BADGE_TYPE_SITE,
             'courseid' => null,
             'messagesubject' => 'Test message subject',
@@ -69,7 +72,7 @@ class core_badges_generator extends component_generator_base {
             'status' => BADGE_STATUS_ACTIVE,
             'version' => OPEN_BADGES_V2,
             'language' => 'en',
-            'imagecaption' => 'Image caption'
+            'imagecaption' => 'Image caption',
         ], $record);
 
         $record->id = $DB->insert_record('badge', $record);
@@ -166,6 +169,7 @@ class core_badges_generator extends component_generator_base {
             'dateexpire' => null,
             'visible' => 1,
             'issuernotified' => null,
+            'expirednotified' => 0,
         ], $record);
         $issuedbadge->id = $DB->insert_record('badge_issued', $issuedbadge);
 

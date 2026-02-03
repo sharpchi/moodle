@@ -135,6 +135,9 @@ final class restore_stepslib_date_test extends \restore_date_testcase {
         $fordb->issuercontact = "issuer@example.com";
         $fordb->expiredate = time();
         $fordb->expireperiod = null;
+        $fordb->notifywhenexpires = 0;
+        $fordb->expirysubject = 'Expiry test subject';
+        $fordb->expirymessage = 'Expiry test body';
         $fordb->type = BADGE_TYPE_COURSE;
         $fordb->courseid = $course->id;
         $fordb->messagesubject = "Test message subject";

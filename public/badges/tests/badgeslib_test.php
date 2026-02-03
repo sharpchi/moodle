@@ -239,6 +239,9 @@ final class badgeslib_test extends badges_testcase {
             $badge->issuercontact = "issuer@example.com";
             $badge->expiredate = null;
             $badge->expireperiod = null;
+            $badge->notifywhenexpires = 0;
+            $badge->expirysubject = "Test expiry subject for $i";
+            $badge->expirymessage = "Test expiry message body for $i";
             $badge->type = BADGE_TYPE_SITE;
             $badge->courseid = null;
             $badge->messagesubject = "Test message subject for badge $i";
@@ -317,6 +320,9 @@ final class badgeslib_test extends badges_testcase {
         $badge->issuercontact = "issuer@example.com";
         $badge->expiredate = null;
         $badge->expireperiod = null;
+        $badge->notifywhenexpires = 0;
+        $badge->expirysubject = "Test expiry subject for course badge";
+        $badge->expirymessage = "Test expiry message body for course badge";
         $badge->type = BADGE_TYPE_COURSE;
         $badge->courseid = $this->course->id;
         $badge->messagesubject = "Test message subject for course badge";

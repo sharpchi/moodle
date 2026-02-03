@@ -1444,6 +1444,7 @@ $string['taskbackupcleanup'] = 'Clean backup tables, logs and files';
 $string['taskbadgesadhoc'] = 'Award badge';
 $string['taskbadgescron'] = 'Add award badges adhoc tasks';
 $string['taskbadgesmessagecron'] = 'Background processing for sending badges notifications';
+$string['taskbadgesnotifyexpired'] = 'Notify participants of expired badges';
 $string['taskblogcron'] = 'Sync external blogs';
 $string['taskcachecleanup'] = 'Remove expired cache entries';
 $string['taskcachecron'] = 'Background processing for caches';

@@ -266,6 +266,15 @@ $tasks = array(
         'dayofweek' => '*',
         'month' => '*'
     ),
+    [
+        'classname' => 'core\task\badges_notify_expired_task',
+        'blocking' => 0,
+        'minute' => '5',
+        'hour' => '19',
+        'day' => '*',
+        'dayofweek' => '*',
+        'month' => '*',
+    ],
     array(
         'classname' => 'core\task\file_temp_cleanup_task',
         'blocking' => 0,

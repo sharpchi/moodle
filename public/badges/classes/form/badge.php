@@ -136,6 +136,9 @@ class badge extends moodleform {
         $mform->disabledIf('expireperiod[number]', 'expiry', 'neq', 2);
         $mform->disabledIf('expireperiod[timeunit]', 'expiry', 'neq', 2);
 
+        $mform->addElement('selectyesno', 'notifywhenexpires', get_string('notifywhenexpires', 'badges'), 0);
+        $mform->disabledIf('notifywhenexpires', 'expiry', 'eq', 0);
+
         $mform->addElement('hidden', 'action', $action);
         $mform->setType('action', PARAM_TEXT);
 

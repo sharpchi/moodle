@@ -1327,6 +1327,7 @@ $string['messageprovider:asyncbackupnotification'] = 'Asynchronous backup/restor
 $string['messageprovider:availableupdate'] = 'Available update notifications';
 $string['messageprovider:backup'] = 'Backup notifications';
 $string['messageprovider:badgecreatornotice'] = 'Badge creator notifications';
+$string['messageprovider:badgerecipientbadgeexpired'] = 'Badge expiry notifications';
 $string['messageprovider:badgerecipientnotice'] = 'Badge recipient notifications';
 $string['messageprovider:competencyplancomment'] = 'Comment posted on a learning plan';
 $string['messageprovider:competencyusercompcomment'] = 'Comment posted on a competency';

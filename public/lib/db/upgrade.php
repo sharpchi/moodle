@@ -1868,5 +1868,31 @@ function xmldb_main_upgrade($oldversion) {
     // Automatically generated Moodle v5.2.0 release upgrade line.
     // Put any upgrade step following this.
 
+    if ($oldversion < 2026013000.01) {
+        // Add new fields to badges.
+        $table = new xmldb_table('badge');
+        $field = new xmldb_field('notifywhenexpires', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'expireperiod');
+        if (!$dbman->field_exists('notifywhenexpires')) {
+            $dbman->add_field($table, $field);
+        }
+        $field = new xmldb_field('expirysubject', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL, null, null, 'notifywhenexpires');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        $field = new xmldb_field('expirymessage', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL, null, null, 'expirysubject');
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        // Add new field to badge_issued.
+        $table = new xmldb_table('badge_issued');
+        $field = new xmldb_field('expirednotified', XMLDB_TYPE_INCORRECT, '10', null, XMLDB_NOTNULL, null, 0);
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Main savepoint reached.
+        upgrade_main_savepoint(true, 2026013000.01);
+    }
+
     return true;
 }

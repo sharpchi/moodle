@@ -111,6 +111,9 @@ final class manage_badge_action_bar_test extends \advanced_testcase {
         $badge->issuercontact = "issuer@example.com";
         $badge->expiredate = null;
         $badge->expireperiod = null;
+        $badge->notifywhenexpires = 0;
+        $badge->expirysubject = "Test expiry subject for badge";
+        $badge->expirymessage = "Test expiry message body for badge";
         $badge->messagesubject = "Test message subject for badge";
         $badge->message = "Test message body for badge";
         $badge->attachment = 1;

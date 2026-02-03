@@ -30,6 +30,9 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/badges/criteria/award_criteria.php');
 
 /* Include required user badge exporter */
+
+use core\output\html_writer;
+use core\url;
 use core_badges\external\user_badge_exporter;
 /* Include required badge class exporter */
 use core_badges\external\badgeclass_exporter;
@@ -235,6 +238,59 @@ function badges_notify_badge_award(badge $badge, $userid, $issued, $filepathhash
         message_send($eventdata);
         $DB->set_field('badge_issued', 'issuernotified', time(), array('badgeid' => $badge->id, 'userid' => $userid));
     }
+}
+
+/**
+ * Notify participants when their badge has expired.
+ *
+ * @param badge $badge
+ * @param int $userid
+ * @param string $issued
+ * @param int $dateissued
+ * @return void
+ */
+function badges_notify_badge_expired(badge $badge, int $userid, string $issued, int $dateissued) {
+    global $CFG, $DB;
+
+    $admin = get_admin();
+    $userfrom = new stdClass();
+    $userfrom->id = $admin->id;
+    $userfrom->email = !empty($CFG->badges_defaultissuercontact) ? $CFG->badges_defaultissuercontact : $admin->email;
+    foreach (\core_user\fields::get_name_fields() as $addname) {
+        $userfrom->$addname = !empty($CFG->badges_defaultissuername) ? '' : $admin->$addname;
+    }
+    $userfrom->firstname = !empty($CFG->badges_defaultissuername) ? $CFG->badges_defaultissuername : $admin->firstname;
+    $userfrom->maildisplay = true;
+
+    $badgeurl = new url('/badges/badge.php', ['hash' => $issued]);
+    $issuedlink = html_writer::link($badgeurl, $badge->name);
+    $userto = $DB->get_record('user', ['id' => $userid], '*', MUST_EXIST);
+
+    $params = new stdClass();
+    $params->badgename = $badge->name;
+    $params->username = fullname($userto);
+    $params->badgelink = $issuedlink;
+    $params->expired = userdate($badge->calculate_expiry($dateissued));
+    $message = badge_message_from_template($badge->expirymessage, $params);
+    $plaintext = html_to_text($message);
+
+    // Notify recipient.
+    $eventdata = new \core\message\message();
+    $eventdata->courseid          = is_null($badge->courseid) ? SITEID : $badge->courseid; // Profile/site come with no courseid.
+    $eventdata->component         = 'moodle';
+    $eventdata->name              = 'badgerecipientbadgeexpired';
+    $eventdata->userfrom          = $userfrom;
+    $eventdata->userto            = $userto;
+    $eventdata->contexturl        = $badgeurl;
+    $eventdata->contexturlname    = $badge->name;
+    $eventdata->subject           = $badge->expirysubject;
+    $eventdata->fullmessage       = $plaintext;
+    $eventdata->fullmessageformat = FORMAT_HTML;
+    $eventdata->fullmessagehtml   = $message;
+    $eventdata->smallmessage      = '';
+
+    message_send($eventdata);
+    $DB->set_field('badge_issued', 'expirednotified', time(), ['badgeid' => $badge->id, 'userid' => $userid]);
 }
 
 /**

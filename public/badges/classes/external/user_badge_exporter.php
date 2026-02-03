@@ -217,6 +217,22 @@ class user_badge_exporter extends exporter {
                 'optional' => true,
                 'null' => NULL_ALLOWED,
             ],
+            'notifywhenexpires' => [
+                'type' => PARAM_BOOL,
+                'description' => 'Notify participant when badge expires',
+                'optional' => true,
+                'null' => NULL_ALLOWED,
+            ],
+            'expirymessage' => [
+                'type' => PARAM_RAW,
+                'description' => 'Expiry message',
+                'optional' => true,
+            ],
+            'expirysubject' => [
+                'type' => PARAM_TEXT,
+                'description' => 'Expiry message subject',
+                'optional' => true,
+            ],
         ];
     }
 

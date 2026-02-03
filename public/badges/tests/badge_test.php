@@ -276,6 +276,12 @@ final class badge_test extends \advanced_testcase {
             'expiry' => 0,
             'expiredate' => null,
             'expireperiod' => null,
+            'notifywhenexpires' => 0,
+            'expirysubject' => '',
+            'expirymessageformat' => '1',
+            'expirymessage_editor' => [
+                'text' => 'The new expiry message body',
+            ],
             'type' => BADGE_TYPE_SITE,
             'courseid' => null,
             'messagesubject' => 'The new test message subject',

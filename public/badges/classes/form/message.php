@@ -88,6 +88,18 @@ class message extends moodleform {
         $mform->addElement('select', 'notification', get_string('notification', 'badges'), $options);
         $mform->addHelpButton('notification', 'notification', 'badges');
 
+        $mform->addElement('header', 'badgeexpirymessage', get_string('configureexpirymessage', 'badges'));
+        $mform->addHelpButton('badgeexpirymessage', 'variablesubstitutionexpired', 'badges');
+
+        $mform->addElement('text', 'expirysubject', get_string('subject', 'badges'), ['size' => '70']);
+        $mform->setType('expirysubject', PARAM_TEXT);
+        $mform->addRule('expirysubject', null, 'required');
+        $mform->addRule('expirysubject', get_string('maximumchars', '', 255), 'maxlength', 255);
+
+        $mform->addElement('editor', 'expirymessage_editor', get_string('message', 'badges'), null, $editoroptions);
+        $mform->setType('expirymessage_editor', PARAM_RAW);
+        $mform->addRule('expirymessage_editor', null, 'required');
+
         $this->add_action_buttons();
         $this->set_data($badge);
     }

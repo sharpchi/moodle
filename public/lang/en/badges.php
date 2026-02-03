@@ -190,6 +190,7 @@ $string['clearsettings'] = 'Clear settings';
 $string['completionnotenabled'] = 'Course completion is not enabled for this course, so it cannot be included in badge criteria. Course completion may be enabled in the course settings.';
 $string['completioninfo'] = 'This badge was issued for completing: ';
 $string['configenablebadges'] = 'If enabled, this feature lets you create badges and award them to site users.';
+$string['configureexpirymessage'] = 'Badge expiry message';
 $string['configuremessage'] = 'Badge message';
 $string['connect'] = 'Connect';
 $string['connected'] = 'Connected';
@@ -359,6 +360,9 @@ $string['expireperiodh'] = 'This badge expires {$a} hour(s) after being issued.'
 $string['expireperiodm'] = 'This badge expires {$a} minute(s) after being issued.';
 $string['expireperiods'] = 'This badge expires {$a} second(s) after being issued.';
 $string['expirydate'] = 'Expiry date';
+$string['expirymessage'] = '<p>Your badge "%badgename%" expired on %expired%!</p>
+<p>More information about this badge can be found on the %badgelink% badge information page.</p>';
+$string['expirysubject'] = 'Your badge has expired.';
 $string['existsinbackpack'] = 'Badge already exists in backpack';
 $string['externalconnectto'] = 'To display external badges you need to <a href="{$a}">connect to a backpack</a>.';
 $string['externalbackpack_required'] = 'Backpack provider can\'t be blank';
@@ -466,6 +470,7 @@ $string['notifydaily'] = 'Daily';
 $string['notifyevery'] = 'Every time';
 $string['notifymonthly'] = 'Monthly';
 $string['notifyweekly'] = 'Weekly';
+$string['notifywhenexpires'] = 'Notify participant when badge expires';
 $string['numawards'] = 'Users awarded badge \'{$a->badgename}\': <a href="{$a->link}">{$a->count}</a>.';
 $string['numawardstat'] = 'Users awarded badge \'{$a->badgename}\': {$a->awards}.';
 $string['overallcrit'] = 'of the selected criteria are complete.';
@@ -591,6 +596,20 @@ $string['variablesubstitution_help'] = 'In a badge message, certain variables ca
 
 %badgelink%
 : This will be replaced by the public URL with information about the issued badge.';
+$string['variablesubstitutionexpired'] = 'Variable substitution in expired messages.';
+$string['variablesubstitutionexpired_help'] = 'In a badge message, certain variables can be inserted into the subject and/or body of a message so that they will be replaced with real values when the message is sent. The variables should be inserted into the text exactly as they are shown below. The following variables can be used:
+
+%badgename%
+: This will be replaced by the badge\'s full name.
+
+%username%
+: This will be replaced by the recipient\'s full name.
+
+%badgelink%
+: This will be replaced by the public URL with information about the issued badge.
+
+%expired%
+: This will be replaced with the date the badge expired.';
 $string['verifyemail'] = 'Verify email';
 $string['viewbadge'] = 'View issued badge';
 $string['visible'] = 'Visible';

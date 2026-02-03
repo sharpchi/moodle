@@ -628,6 +628,9 @@ final class provider_test extends provider_testcase {
             'issuercontact' => "issuer@example.com",
             'expiredate' => null,
             'expireperiod' => null,
+            'notifywhenexpires' => 0,
+            'expirysubject' => "Test expiry subject for badge",
+            'expirymessage' => "Test expiry message body for badge",
             'type' => BADGE_TYPE_SITE,
             'courseid' => null,
             'messagesubject' => "Test message subject",
@@ -637,7 +640,7 @@ final class provider_test extends provider_testcase {
             'status' => BADGE_STATUS_ACTIVE,
             'version' => OPEN_BADGES_V2,
             'language' => 'en',
-            'imagecaption' => 'Image caption'
+            'imagecaption' => 'Image caption',
         ], $params);
         $record->id = $DB->insert_record('badge', $record);
 

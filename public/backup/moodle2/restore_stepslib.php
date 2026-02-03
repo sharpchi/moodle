@@ -2774,7 +2774,7 @@ class restore_badges_structure_step extends restore_structure_step {
 
         $courseid = $this->get_courseid();
 
-        $params = array(
+        $params = [
                 'name'           => $data->name,
                 'description'    => $data->description,
                 'timecreated'    => $data->timecreated,
@@ -2786,6 +2786,9 @@ class restore_badges_structure_step extends restore_structure_step {
                 'issuercontact'  => $data->issuercontact,
                 'expiredate'     => $this->apply_date_offset($data->expiredate),
                 'expireperiod'   => $data->expireperiod,
+                'notifywhenexpires' => $data->notifywhenexpires,
+                'expirysubject' => $data->expirysubject,
+                'expirymessage' => $data->expirymessage,
                 'type'           => BADGE_TYPE_COURSE,
                 'courseid'       => $courseid,
                 'message'        => $data->message,
@@ -2797,7 +2800,7 @@ class restore_badges_structure_step extends restore_structure_step {
                 'version'        => $data->version,
                 'language'       => $data->language,
                 'imagecaption'   => $data->imagecaption
-        );
+        ];
 
         $newid = $DB->insert_record('badge', $params);
         $this->set_mapping('badge', $data->id, $newid, $restorefiles);

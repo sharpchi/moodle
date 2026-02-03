@@ -124,6 +124,7 @@ $errormsg  = '';
 $editoroptions = [];
 if ($badge->id && $action == 'message') {
     $badge->message = clean_text($badge->message, FORMAT_HTML);
+    $badge->expirymessage = clean_text($badge->expirymessage, FORMAT_HTML);
     $editoroptions = [
         'subdirs' => 0,
         'maxbytes' => 0,
@@ -134,6 +135,7 @@ if ($badge->id && $action == 'message') {
         'trusttext' => false,
     ];
     $badge = file_prepare_standard_editor($badge, 'message', $editoroptions, $context);
+    $badge = file_prepare_standard_editor($badge, 'expirymessage', $editoroptions, $context);
 }
 
 $formclass = '\core_badges\form' . '\\' . ($action == 'new' ? 'badge' : $action);
